@@ -21,14 +21,35 @@ namespace Castle.Services.Transaction
 	using System;
 
 	/// <summary>
-	/// Summary description for IResource.
+	/// Manages the creation and disposal of 
+	/// <see cref="ITransaction"/> instances.
 	/// </summary>
-	public interface IResource
+	public interface ITransactionManager
 	{
-		void Start();
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="transactionMode"></param>
+		/// <param name="isolationMode"></param>
+		/// <returns></returns>
+		ITransaction CreateTransaction( TransactionMode transactionMode, IsolationMode isolationMode );
 
-		void Commit();
+		/// <summary>
+		/// Returns the current <see cref="ITransaction"/>. 
+		/// The transaction manager will probably need to 
+		/// hold the created transaction in the thread or in 
+		/// some sort of context.
+		/// </summary>
+		ITransaction CurrentTransaction
+		{
+			get;
+		}
 
-		void Rollback();
+		/// <summary>
+		/// Should guarantee the correct disposal of transaction
+		/// resources.
+		/// </summary>
+		/// <param name="transaction"></param>
+		void Dispose(ITransaction transaction);
 	}
 }
