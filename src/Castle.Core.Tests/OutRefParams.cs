@@ -14,74 +14,74 @@
 
 namespace Castle.DynamicProxy.Tests
 {
-	using System;
-	using Castle.Core.Interceptor;
-	using Castle.DynamicProxy.Tests.Interceptors;
-	using Castle.DynamicProxy.Tests.Interfaces;
-	using NUnit.Framework;
+    using System;
+    using Castle.Core.Interceptor;
+    using Castle.DynamicProxy.Tests.Interceptors;
+    using Castle.DynamicProxy.Tests.Interfaces;
+    using NUnit.Framework;
 
-	[TestFixture]
-	public class OutRefParams : BasePEVerifyTestCase
-	{
-		[Test]
-		public void CanCreateProxyOfInterfaceWithOutParameter()
-		{
-			KeepDataInterceptor interceptor = new KeepDataInterceptor();
-			object proxy = generator.CreateInterfaceProxyWithoutTarget(typeof (IWithRefOut), interceptor);
-			Assert.IsNotNull(proxy);
-		}
+    [TestFixture]
+    public class OutRefParams : BasePEVerifyTestCase
+    {
+        [Test]
+        public void CanCreateProxyOfInterfaceWithOutParameter()
+        {
+            KeepDataInterceptor interceptor = new KeepDataInterceptor();
+            object proxy = generator.CreateInterfaceProxyWithoutTarget(typeof(IWithRefOut), interceptor);
+            Assert.IsNotNull(proxy);
+        }
 
-		[Test]
-		public void CanCallMethodWithOutParameter()
-		{
-			int i;
-			WithCallbackInterceptor interceptor = new WithCallbackInterceptor(delegate { });
-			IWithRefOut proxy = (IWithRefOut) generator.CreateInterfaceProxyWithoutTarget(typeof (IWithRefOut), interceptor);
-			proxy.Do(out i);
-		}
+        [Test]
+        public void CanCallMethodWithOutParameter()
+        {
+            int i;
+            WithCallbackInterceptor interceptor = new WithCallbackInterceptor(delegate { });
+            IWithRefOut proxy = (IWithRefOut)generator.CreateInterfaceProxyWithoutTarget(typeof(IWithRefOut), interceptor);
+            proxy.Do(out i);
+        }
 
-		[Test]
-		public void CanAffectValueOfOutParameter()
-		{
-			int i;
-			WithCallbackInterceptor interceptor =
-				new WithCallbackInterceptor(delegate(IInvocation invocation) { invocation.Arguments[0] = 5; });
-			IWithRefOut proxy = (IWithRefOut) generator.CreateInterfaceProxyWithoutTarget(typeof (IWithRefOut), interceptor);
-			proxy.Do(out i);
-			Assert.AreEqual(5, i);
-		}
+        [Test]
+        public void CanAffectValueOfOutParameter()
+        {
+            int i;
+            WithCallbackInterceptor interceptor =
+                new WithCallbackInterceptor(delegate(IInvocation invocation) { invocation.Arguments[0] = 5; });
+            IWithRefOut proxy = (IWithRefOut)generator.CreateInterfaceProxyWithoutTarget(typeof(IWithRefOut), interceptor);
+            proxy.Do(out i);
+            Assert.AreEqual(5, i);
+        }
 
-		[Test]
-		public void CanCreateProxyWithRefParam()
-		{
-			int i = 3;
-			WithCallbackInterceptor interceptor =
-				new WithCallbackInterceptor(delegate(IInvocation invocation) { invocation.Arguments[0] = 5; });
-			IWithRefOut proxy = (IWithRefOut) generator.CreateInterfaceProxyWithoutTarget(typeof (IWithRefOut), interceptor);
-			proxy.Did(ref i);
-			Assert.AreEqual(5, i);
-		}
+        [Test]
+        public void CanCreateProxyWithRefParam()
+        {
+            int i = 3;
+            WithCallbackInterceptor interceptor =
+                new WithCallbackInterceptor(delegate(IInvocation invocation) { invocation.Arguments[0] = 5; });
+            IWithRefOut proxy = (IWithRefOut)generator.CreateInterfaceProxyWithoutTarget(typeof(IWithRefOut), interceptor);
+            proxy.Did(ref i);
+            Assert.AreEqual(5, i);
+        }
 
 
-		[Test]
-		public void CanCreateComplexOutRefProxyOnClass()
-		{
-			int i = 3;
-			string s1 = "2";
-			string s2;
-			WithCallbackInterceptor interceptor = new WithCallbackInterceptor(delegate(IInvocation invocation)
-			                                                              	{
-			                                                              		invocation.Arguments[0] = 5;
-			                                                              		invocation.Arguments[1] = "aaa";
-			                                                              		invocation.Arguments[3] = "bbb";
-			                                                              	});
-			MyClass proxy = (MyClass) generator.CreateClassProxy(typeof (MyClass), interceptor);
-			proxy.MyMethod(out i, ref s1, 1, out s2);
-			Assert.AreEqual(5, i);
-			Assert.AreEqual(s1, "aaa");
-			Assert.AreEqual(s2, "bbb");
-		}
-
+        [Test]
+        public void CanCreateComplexOutRefProxyOnClass()
+        {
+            int i = 3;
+            string s1 = "2";
+            string s2;
+            WithCallbackInterceptor interceptor = new WithCallbackInterceptor(delegate(IInvocation invocation)
+                                                                            {
+                                                                                invocation.Arguments[0] = 5;
+                                                                                invocation.Arguments[1] = "aaa";
+                                                                                invocation.Arguments[3] = "bbb";
+                                                                            });
+            MyClass proxy = (MyClass)generator.CreateClassProxy(typeof(MyClass), interceptor);
+            proxy.MyMethod(out i, ref s1, 1, out s2);
+            Assert.AreEqual(5, i);
+            Assert.AreEqual(s1, "aaa");
+            Assert.AreEqual(s2, "bbb");
+        }
+#if !SILVERLIGHT
 		[Test, Explicit]
 		public void CanCreateProxyWithStructRefParam()
 		{
@@ -90,29 +90,30 @@ namespace Castle.DynamicProxy.Tests
 			proxy.MyMethodWithStruct(ref s);
 			Assert.AreEqual(20, s.Value);
 		}
+#endif
 
-		public struct MyStruct
-		{
-			public int Value;
+        public struct MyStruct
+        {
+            public int Value;
 
-			public MyStruct(int value)
-			{
-				Value = value;
-			}
-		}
+            public MyStruct(int value)
+            {
+                Value = value;
+            }
+        }
 
 
-		public class MyClass
-		{
-			public virtual void MyMethod(out int i, ref string s, int i1, out string s2)
-			{
-				throw new NotImplementedException();
-			}
+        public class MyClass
+        {
+            public virtual void MyMethod(out int i, ref string s, int i1, out string s2)
+            {
+                throw new NotImplementedException();
+            }
 
-			public virtual void MyMethodWithStruct(ref MyStruct s)
-			{
-				s.Value = 2*s.Value;
-			}
-		}
-	}
+            public virtual void MyMethodWithStruct(ref MyStruct s)
+            {
+                s.Value = 2 * s.Value;
+            }
+        }
+    }
 }

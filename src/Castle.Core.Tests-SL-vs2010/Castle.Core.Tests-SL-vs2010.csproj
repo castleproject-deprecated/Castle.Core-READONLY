@@ -1,0 +1,651 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{733971E4-EB04-4D76-8B08-E758474881D8}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Castle.Core.Tests</RootNamespace>
+    <AssemblyName>Castle.Core.Tests</AssemblyName>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <SilverlightApplication>true</SilverlightApplication>
+    <SupportedCultures />
+    <XapOutputs>true</XapOutputs>
+    <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
+    <XapFilename>Castle.Core.Tests_SL_vs2010.xap</XapFilename>
+    <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
+    <SilverlightAppEntry>Castle.Core.Tests_SL_vs2010.App</SilverlightAppEntry>
+    <TestPageFileName>TestPage.html</TestPageFileName>
+    <CreateTestPage>true</CreateTestPage>
+    <ValidateXaml>true</ValidateXaml>
+    <EnableOutOfBrowser>false</EnableOutOfBrowser>
+    <OutOfBrowserSettingsFile>Properties\OutOfBrowserSettings.xml</OutOfBrowserSettingsFile>
+    <UsePlatformExtensions>false</UsePlatformExtensions>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <LinkedServerProject />
+  </PropertyGroup>
+  <!--
+  //
+  // Silverlight Code Coverage Instrumentation
+  // List any libraries or assemblies that you would like to instrument during
+  // a code coverage pass. An example, for ClassLibrary1, is provided, and
+  // commented out below as a starting point:
+  //
+  -->
+  <!--
+  <ItemGroup>
+    <InstrumentSilverlightAssemblies Include="SilverlightClassLibrary1">
+      <Visible>false</Visible>
+    </InstrumentSilverlightAssemblies>
+  </ItemGroup>
+  -->
+  <!-- This property group is only here to support building this project using the 
+       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
+       to set the TargetFrameworkVersion to v3.5 -->
+  <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>CastleKey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Silverlight.Testing">
+      <HintPath>$(MSBuildExtensionsPath)\..\Microsoft SDKs\Silverlight\v4.0\Toolkit\Apr10\Testing\Microsoft.Silverlight.Testing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight">
+      <HintPath>$(MSBuildExtensionsPath)\..\Microsoft SDKs\Silverlight\v4.0\Toolkit\Apr10\Testing\Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\lib\silverlight-4.0\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.silverlight">
+      <HintPath>..\..\lib\silverlight-4.0\nunit.silverlight.dll</HintPath>
+    </Reference>
+    <Reference Include="NUnitSilverlight">
+      <HintPath>..\..\lib\silverlight-4.0\NUnitSilverlight.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows" />
+    <Reference Include="mscorlib" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Windows.Browser" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Castle.Core.Tests\AccessLevelTestCase.cs">
+      <Link>AccessLevelTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\BasePEVerifyTestCase.cs">
+      <Link>BasePEVerifyTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\BaseTestCaseTestCase.cs">
+      <Link>BaseTestCaseTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\BasicClassProxyTestCase.cs">
+      <Link>BasicClassProxyTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\BasicInterfaceProxyTestCase.cs">
+      <Link>BasicInterfaceProxyTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\BasicInterfaceProxyWithoutTargetTestCase.cs">
+      <Link>BasicInterfaceProxyWithoutTargetTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\BugsReportedTestCase.cs">
+      <Link>BugsReportedTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\BugsReported\Camera.cs">
+      <Link>BugsReported\Camera.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\BugsReported\ConstraintViolationInDebuggerTestCase.cs">
+      <Link>BugsReported\ConstraintViolationInDebuggerTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\BugsReported\DynProxy132.cs">
+      <Link>BugsReported\DynProxy132.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\BugsReported\DynProxy46.cs">
+      <Link>BugsReported\DynProxy46.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\BugsReported\DynProxy88.cs">
+      <Link>BugsReported\DynProxy88.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\CacheKeyTestCase.cs">
+      <Link>CacheKeyTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\CanDefineAdditionalCustomAttributes.cs">
+      <Link>CanDefineAdditionalCustomAttributes.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\ChangeProxyTargetInterceptor.cs">
+      <Link>ChangeProxyTargetInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\ClassEmitterTestCase.cs">
+      <Link>ClassEmitterTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Classes\ClassCallingVirtualMethodFromCtor.cs">
+      <Link>Classes\ClassCallingVirtualMethodFromCtor.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Classes\ClassOverridingEqualsAndGetHashCode.cs">
+      <Link>Classes\ClassOverridingEqualsAndGetHashCode.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Classes\ClassToSerialize.cs">
+      <Link>Classes\ClassToSerialize.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Classes\ClassWithAttributesOnMethodParameters.cs">
+      <Link>Classes\ClassWithAttributesOnMethodParameters.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Classes\ClassWithCharRetType.cs">
+      <Link>Classes\ClassWithCharRetType.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Classes\ClassWithConstructors.cs">
+      <Link>Classes\ClassWithConstructors.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Classes\ClassWithDefaultConstructor.cs">
+      <Link>Classes\ClassWithDefaultConstructor.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Classes\ClassWithExplicitInterface.cs">
+      <Link>Classes\ClassWithExplicitInterface.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Classes\ClassWithIndexer.cs">
+      <Link>Classes\ClassWithIndexer.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Classes\ClassWithInternalDefaultConstructor.cs">
+      <Link>Classes\ClassWithInternalDefaultConstructor.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Classes\ClassWithProtectedDefaultConstructor.cs">
+      <Link>Classes\ClassWithProtectedDefaultConstructor.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Classes\ClassWithVariousConstructors.cs">
+      <Link>Classes\ClassWithVariousConstructors.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Classes\ClassWith_Smart_Attribute.cs">
+      <Link>Classes\ClassWith_Smart_Attribute.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Classes\DiffAccessLevelOnProperties.cs">
+      <Link>Classes\DiffAccessLevelOnProperties.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Classes\HasNonInheritableAttribute.cs">
+      <Link>Classes\HasNonInheritableAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Classes\MySerializableClass.cs">
+      <Link>Classes\MySerializableClass.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Classes\NonPublicConstructorClass.cs">
+      <Link>Classes\NonPublicConstructorClass.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Classes\NonPublicMethodsClass.cs">
+      <Link>Classes\NonPublicMethodsClass.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Classes\ProtectedInternalConstructorClass.cs">
+      <Link>Classes\ProtectedInternalConstructorClass.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Classes\RequiredAttribute.cs">
+      <Link>Classes\RequiredAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Classes\ServiceClass.cs">
+      <Link>Classes\ServiceClass.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Classes\SimpleClass.cs">
+      <Link>Classes\SimpleClass.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Classes\VirtuallyImplementsInterfaceWithEvent.cs">
+      <Link>Classes\VirtuallyImplementsInterfaceWithEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Classes\VirtuallyImplementsInterfaceWithProperty.cs">
+      <Link>Classes\VirtuallyImplementsInterfaceWithProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\ClassProxyConstructorsTestCase.cs">
+      <Link>ClassProxyConstructorsTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\ClassWithAttributesTestCase.cs">
+      <Link>ClassWithAttributesTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\ComInterfacesTests.cs">
+      <Link>ComInterfacesTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\ConsoleLoggerTestCase.cs">
+      <Link>ConsoleLoggerTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\CrossAppDomainCaller.cs">
+      <Link>CrossAppDomainCaller.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\CustomAttributesTestCase.cs">
+      <Link>CustomAttributesTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\DiagnosticsLoggerTestCase.cs">
+      <Link>DiagnosticsLoggerTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\DictionarySerializationTestCase.cs">
+      <Link>DictionarySerializationTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\ExplicitInterfaceTestCase.cs">
+      <Link>ExplicitInterfaceTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\GenClasses\ClassWithGenArgs.cs">
+      <Link>GenClasses\ClassWithGenArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\GenClasses\ClassWithIndexer.cs">
+      <Link>GenClasses\ClassWithIndexer.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\GenClasses\ClassWithMethodWithArrayOfListOfT.cs">
+      <Link>GenClasses\ClassWithMethodWithArrayOfListOfT.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\GenClasses\ClassWithMethodWithGenericOfGenericOfT.cs">
+      <Link>GenClasses\ClassWithMethodWithGenericOfGenericOfT.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\GenClasses\ClassWIthMethodWithReturnArrayOfListOfT.cs">
+      <Link>GenClasses\ClassWIthMethodWithReturnArrayOfListOfT.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\GenClasses\GenClassNameClash.cs">
+      <Link>GenClasses\GenClassNameClash.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\GenClasses\GenClassWithConstraints.cs">
+      <Link>GenClasses\GenClassWithConstraints.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\GenClasses\GenClassWithExplicitImpl.cs">
+      <Link>GenClasses\GenClassWithExplicitImpl.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\GenClasses\GenClassWithGenMethods.cs">
+      <Link>GenClasses\GenClassWithGenMethods.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\GenClasses\GenClassWithGenMethodsConstrained.cs">
+      <Link>GenClasses\GenClassWithGenMethodsConstrained.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\GenClasses\GenClassWithGenReturn.cs">
+      <Link>GenClasses\GenClassWithGenReturn.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\GenClasses\MethodWithArgumentBeingArrayOfGenericTypeOfT.cs">
+      <Link>GenClasses\MethodWithArgumentBeingArrayOfGenericTypeOfT.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\GenClasses\OnlyGenMethodsClass.cs">
+      <Link>GenClasses\OnlyGenMethodsClass.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\GenerationHookTestCase.cs">
+      <Link>GenerationHookTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\GenericClassProxyTestCase.cs">
+      <Link>GenericClassProxyTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\GenericInterfaceProxyTestCase.cs">
+      <Link>GenericInterfaceProxyTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\GenericMethodsProxyTestCase.cs">
+      <Link>GenericMethodsProxyTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\GenericTestUtility.cs">
+      <Link>GenericTestUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\GenInterfaces\GenericMethodWhereOneGenParamInheritsTheOther.cs">
+      <Link>GenInterfaces\GenericMethodWhereOneGenParamInheritsTheOther.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\GenInterfaces\GenExplicitImplementation.cs">
+      <Link>GenInterfaces\GenExplicitImplementation.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\GenInterfaces\GenInterface.cs">
+      <Link>GenInterfaces\GenInterface.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\GenInterfaces\GenInterfaceHierarchy.cs">
+      <Link>GenInterfaces\GenInterfaceHierarchy.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\GenInterfaces\GenInterfaceWithGenArray.cs">
+      <Link>GenInterfaces\GenInterfaceWithGenArray.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\GenInterfaces\GenInterfaceWithGenericTypes.cs">
+      <Link>GenInterfaces\GenInterfaceWithGenericTypes.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\GenInterfaces\GenInterfaceWithGenMethods.cs">
+      <Link>GenInterfaces\GenInterfaceWithGenMethods.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\GenInterfaces\GenInterfaceWithGenMethodsAndGenReturn.cs">
+      <Link>GenInterfaces\GenInterfaceWithGenMethodsAndGenReturn.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\GenInterfaces\GenInterfaceWithMethodWithNestedGenericParameter.cs">
+      <Link>GenInterfaces\GenInterfaceWithMethodWithNestedGenericParameter.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\GenInterfaces\GenInterfaceWithMethodWithNestedGenericParameterByRef.cs">
+      <Link>GenInterfaces\GenInterfaceWithMethodWithNestedGenericParameterByRef.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\GenInterfaces\GenInterfaceWithMethodWithNestedGenericReturn.cs">
+      <Link>GenInterfaces\GenInterfaceWithMethodWithNestedGenericReturn.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\GenInterfaces\OnlyGenMethodsInterface.cs">
+      <Link>GenInterfaces\OnlyGenMethodsInterface.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\InheritedInterfacesTestCase.cs">
+      <Link>InheritedInterfacesTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\InterceptorSelectorTestCase.cs">
+      <Link>InterceptorSelectorTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Interceptors\AddTwoInterceptor.cs">
+      <Link>Interceptors\AddTwoInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Interceptors\AssertCanChangeTargetInterceptor.cs">
+      <Link>Interceptors\AssertCanChangeTargetInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Interceptors\AssertCannotChangeTargetInterceptor.cs">
+      <Link>Interceptors\AssertCannotChangeTargetInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Interceptors\CallCountingInterceptor.cs">
+      <Link>Interceptors\CallCountingInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Interceptors\ChangeTargetInterceptor.cs">
+      <Link>Interceptors\ChangeTargetInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Interceptors\DoNothingInterceptor.cs">
+      <Link>Interceptors\DoNothingInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Interceptors\KeepDataInterceptor.cs">
+      <Link>Interceptors\KeepDataInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Interceptors\LogInvocationInterceptor.cs">
+      <Link>Interceptors\LogInvocationInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Interceptors\ProceedOnTypeInterceptor.cs">
+      <Link>Interceptors\ProceedOnTypeInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Interceptors\RequiredParamInterceptor.cs">
+      <Link>Interceptors\RequiredParamInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Interceptors\ResultModifierInterceptor.cs">
+      <Link>Interceptors\ResultModifierInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Interceptors\SetReturnValueInterceptor.cs">
+      <Link>Interceptors\SetReturnValueInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Interceptors\WithCallbackInterceptor.cs">
+      <Link>Interceptors\WithCallbackInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\InterClasses\AlwaysThrowsServiceImpl.cs">
+      <Link>InterClasses\AlwaysThrowsServiceImpl.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\InterClasses\ClassWithIndexer.cs">
+      <Link>InterClasses\ClassWithIndexer.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\InterClasses\ClassWithMarkerInterface.cs">
+      <Link>InterClasses\ClassWithMarkerInterface.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\InterClasses\ClassWithMultiDimentionalArray.cs">
+      <Link>InterClasses\ClassWithMultiDimentionalArray.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\InterClasses\IClassWithMultiDimentionalArray.cs">
+      <Link>InterClasses\IClassWithMultiDimentionalArray.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\InterClasses\IExtendedService.cs">
+      <Link>InterClasses\IExtendedService.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\InterClasses\IInterfaceWithGenericMethodWithDependentConstraint.cs">
+      <Link>InterClasses\IInterfaceWithGenericMethodWithDependentConstraint.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\InterClasses\IMyInterface2.cs">
+      <Link>InterClasses\IMyInterface2.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\InterClasses\InterfaceWithIndexer.cs">
+      <Link>InterClasses\InterfaceWithIndexer.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\InterClasses\IService.cs">
+      <Link>InterClasses\IService.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\InterClasses\IService2.cs">
+      <Link>InterClasses\IService2.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\InterClasses\ServiceImpl.cs">
+      <Link>InterClasses\ServiceImpl.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\InterfaceProxyBaseTypeTestCase.cs">
+      <Link>InterfaceProxyBaseTypeTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\InterfaceProxyWithTargetInterfaceTestCase.cs">
+      <Link>InterfaceProxyWithTargetInterfaceTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Interfaces\IDecimalOutParam.cs">
+      <Link>Interfaces\IDecimalOutParam.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Interfaces\IdenticalInterfaces.cs">
+      <Link>Interfaces\IdenticalInterfaces.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Interfaces\IEmpty.cs">
+      <Link>Interfaces\IEmpty.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Interfaces\IFooWithIntPtr.cs">
+      <Link>Interfaces\IFooWithIntPtr.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Interfaces\IFooWithOutIntPtr.cs">
+      <Link>Interfaces\IFooWithOutIntPtr.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Interfaces\IGenericWithRefOut.cs">
+      <Link>Interfaces\IGenericWithRefOut.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Interfaces\IHaveIndexers.cs">
+      <Link>Interfaces\IHaveIndexers.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Interfaces\INullable.cs">
+      <Link>Interfaces\INullable.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Interfaces\IOne.cs">
+      <Link>Interfaces\IOne.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Interfaces\ITwo.cs">
+      <Link>Interfaces\ITwo.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Interfaces\IWithRefOut.cs">
+      <Link>Interfaces\IWithRefOut.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Interfaces\One.cs">
+      <Link>Interfaces\One.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Interfaces\OneTwo.cs">
+      <Link>Interfaces\OneTwo.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Interfaces\Two.cs">
+      <Link>Interfaces\Two.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\InternalsVisibleTo.cs">
+      <Link>InternalsVisibleTo.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\InvocationMethodInvocationTargetTestCase.cs">
+      <Link>InvocationMethodInvocationTargetTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\InvocationTestCase.cs">
+      <Link>InvocationTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\InvocationTypesCachingTestCase.cs">
+      <Link>InvocationTypesCachingTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\LevelFilteredLoggerTests.cs">
+      <Link>LevelFilteredLoggerTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\LinkedListTestCase.cs">
+      <Link>LinkedListTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\LoggingTestCase.cs">
+      <Link>LoggingTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\MethodComparerTestCase.cs">
+      <Link>MethodComparerTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\MethodEquivalenceTestCase.cs">
+      <Link>MethodEquivalenceTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\MethodFinderTestCase.cs">
+      <Link>MethodFinderTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\MethodsWithAttributesOnParametersTestCase.cs">
+      <Link>MethodsWithAttributesOnParametersTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\MixinDataTestCase.cs">
+      <Link>MixinDataTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Mixins\ClassImplementingIDerivedSImpleMixin.cs">
+      <Link>Mixins\ClassImplementingIDerivedSImpleMixin.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Mixins\ClassImplementingISimpleMixin.cs">
+      <Link>Mixins\ClassImplementingISimpleMixin.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Mixins\ComplexMixin.cs">
+      <Link>Mixins\ComplexMixin.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Mixins\IDerivedSimpleMixin.cs">
+      <Link>Mixins\IDerivedSimpleMixin.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Mixins\OtherMixin.cs">
+      <Link>Mixins\OtherMixin.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Mixins\OtherMixinImplementingISimpleMixin.cs">
+      <Link>Mixins\OtherMixinImplementingISimpleMixin.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Mixins\SimpleMixin.cs">
+      <Link>Mixins\SimpleMixin.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\MixinTestCase.cs">
+      <Link>MixinTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\ModuleScopeTestCase.cs">
+      <Link>ModuleScopeTestCase.cs</Link>
+    </Compile>
+    <None Include="..\Castle.Core.Tests\MonitorLockTestCase.cs">
+      <Link>MonitorLockTestCase.cs</Link>
+    </None>
+    <Compile Include="..\Castle.Core.Tests\NonProxiedMethodsNoTargetTestCase.cs">
+      <Link>NonProxiedMethodsNoTargetTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\NonProxiedMixinMethodsTestCase.cs">
+      <Link>NonProxiedMixinMethodsTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\NonProxiedTargetMethodsTestCase.cs">
+      <Link>NonProxiedTargetMethodsTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\OrderOfInterfacePrecedenceTestCase.cs">
+      <Link>OrderOfInterfacePrecedenceTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\OutRefParams.cs">
+      <Link>OutRefParams.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\PersistentProxyBuilderTestCase.cs">
+      <Link>PersistentProxyBuilderTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\ProxyGenerationOptionsTestCase.cs">
+      <Link>ProxyGenerationOptionsTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\ProxyKind.cs">
+      <Link>ProxyKind.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\ProxyNothingHook.cs">
+      <Link>ProxyNothingHook.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\ProxyTargetAccessorHandlingTestCase.cs">
+      <Link>ProxyTargetAccessorHandlingTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\ReflectionBasedDictionaryAdapterTestCase.cs">
+      <Link>ReflectionBasedDictionaryAdapterTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Resources\AssemblyResourceFactoryTestCase.cs">
+      <Link>Resources\AssemblyResourceFactoryTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Resources\CustomUriTestCase.cs">
+      <Link>Resources\CustomUriTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Resources\FileResourceFactoryTestCase.cs">
+      <Link>Resources\FileResourceFactoryTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Resources\MoreRes\TestRes.Designer.cs">
+      <Link>Resources\MonoRes\TestRes.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\Resources\UncResourceFactoryTestCase.cs">
+      <Link>Resources\UncResourceFactoryTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\RhinoMocksTestCase.cs">
+      <Link>RhinoMocksTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\SerializableClassTestCase.cs">
+      <Link>SerializableClassTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\SlimReadWriteLockTestCase.cs">
+      <Link>SlimReadWriteLockTestCase.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\StreamLoggerTests.cs">
+      <Link>StreamLoggerTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\TraceLoggerTests.cs">
+      <Link>TraceLoggerTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\WebLoggerTests.cs">
+      <Link>WebLoggerTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Castle.Core.Tests\XmlSerializationTestCase.cs">
+      <Link>XmlSerializationTestCase.cs</Link>
+    </Compile>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CastleKey.snk" />
+    <None Include="Properties\AppManifest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\Castle.Core.Tests\Resources\file1.txt">
+      <Link>Resources\file1.txt</Link>
+    </Content>
+    <Content Include="..\Castle.Core.Tests\Resources\MoreRes\file2.txt">
+      <Link>Resources\MonoRes\file2.txt</Link>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Castle.Core.Tests\Resources\MoreRes\TestRes.resx">
+      <Link>Resources\MonoRes\TestRes.resx</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Castle.Core\Castle.Core-SL-vs2010.csproj">
+      <Project>{E4FA5B53-7D36-429E-8E5C-53D5479242BA}</Project>
+      <Name>Castle.Core-SL-vs2010</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <Import Condition="$(SilverlightVersion)=='v3.0'" Project="$(Registry:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\SilverlightToolkit\Tools\v3.0)Microsoft.Silverlight.Toolkit.Build.targets" />
+  <Import Condition="$(SilverlightVersion)=='v4.0'" Project="$(Registry:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\SilverlightToolkit\Tools\v4.0)Microsoft.Silverlight.Toolkit.Build.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

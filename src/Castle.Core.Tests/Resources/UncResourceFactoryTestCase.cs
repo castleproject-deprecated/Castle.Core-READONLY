@@ -33,6 +33,7 @@ namespace Castle.Core.Tests.Resources
 			Assert.IsFalse( resFactory.Accept( new CustomUri("http://www.castleproject.org") ) );
 		}
 
+#if !SILVERLIGHT
 		[Test, Explicit]
 		public void CreateWithAbsolutePath()
 		{
@@ -59,12 +60,13 @@ namespace Castle.Core.Tests.Resources
 			Assert.AreEqual("Something", line);
 		}
 
-		[Test, Explicit]
+        [Test, Explicit]
 		[ExpectedException(typeof(ResourceException))]
 		public void NonExistingResource()
 		{
 			resFactory.Create( new CustomUri(@"\\hammettz\C$\file1.txt") )
 				.GetStreamReader();
 		}
-	}
+#endif
+    }
 }

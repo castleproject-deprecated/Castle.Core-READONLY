@@ -14,37 +14,37 @@
 
 namespace Castle.Core.Tests.Resources
 {
-	using System;
-	using System.Globalization;
-	using NUnit.Framework;
-	using Castle.Core.Resource;
+    using System;
+    using System.Globalization;
+    using NUnit.Framework;
+    using Castle.Core.Resource;
 
 
-	[TestFixture]
-	public class AssemblyResourceFactoryTestCase
-	{
-		private AssemblyResourceFactory resFactory = new AssemblyResourceFactory();
-		private String AssemblyName = "Castle.Core.Tests";
-		private String ResPath = "Resources";
+    [TestFixture]
+    public class AssemblyResourceFactoryTestCase
+    {
+        private AssemblyResourceFactory resFactory = new AssemblyResourceFactory();
+        private String AssemblyName = "Castle.Core.Tests";
+        private String ResPath = "Resources";
 
-		[Test]
-		public void Accept()
-		{
-			Assert.IsTrue(resFactory.Accept(new CustomUri("assembly://something/")));
-			Assert.IsFalse(resFactory.Accept(new CustomUri("file://something")));
-			Assert.IsFalse(resFactory.Accept(new CustomUri("http://www.castleproject.org")));
-		}
+        [Test]
+        public void Accept()
+        {
+            Assert.IsTrue(resFactory.Accept(new CustomUri("assembly://something/")));
+            Assert.IsFalse(resFactory.Accept(new CustomUri("file://something")));
+            Assert.IsFalse(resFactory.Accept(new CustomUri("http://www.castleproject.org")));
+        }
 
-		[Test]
-		public void CreateWithAbsolutePath()
-		{
-			IResource resource = resFactory.Create(new CustomUri("assembly://" + AssemblyName + "/" + ResPath + "/file1.txt"));
+        [Test]
+        public void CreateWithAbsolutePath()
+        {
+            IResource resource = resFactory.Create(new CustomUri("assembly://" + AssemblyName + "/" + ResPath + "/file1.txt"));
 
-			Assert.IsNotNull(resource);
-			String line = resource.GetStreamReader().ReadLine();
-			Assert.AreEqual("Something", line);
-		}
-
+            Assert.IsNotNull(resource);
+            String line = resource.GetStreamReader().ReadLine();
+            Assert.AreEqual("Something", line);
+        }
+#if !SILVERLIGHT
 		[Test, Explicit]
 		public void CanHandleBundleResource()
 		{
@@ -54,5 +54,6 @@ namespace Castle.Core.Tests.Resources
 			String line = resource.GetStreamReader().ReadLine();
 			Assert.AreEqual("Content content", line);
 		}
-	}
+#endif
+    }
 }

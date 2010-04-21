@@ -17,7 +17,7 @@ namespace Castle.DynamicProxy.Tests
 	using System;
 	using System.Diagnostics;
 	using System.IO;
-	using Castle.DynamicProxy.Tests.Properties;
+	// using Castle.DynamicProxy.Tests.Properties;
 	using NUnit.Framework;
 
 #if !MONO && !SILVERLIGHT // mono doesn't have PEVerify
@@ -27,7 +27,7 @@ namespace Castle.DynamicProxy.Tests
 		[SetUp]
 		public void FindPeVerifySetUp()
 		{
-			var peVerifyProbingPaths = Settings.Default.PeVerifyProbingPaths;
+			var peVerifyProbingPaths = Castle.Core.Tests.Properties.Settings.Default.PeVerifyProbingPaths;
 			foreach (var path in peVerifyProbingPaths)
 			{
 				var file = Path.Combine(path, "peverify.exe");
