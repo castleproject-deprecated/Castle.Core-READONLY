@@ -70,6 +70,36 @@ namespace Castle.DynamicProxy.Tests
 		}
 
 		[Test]
+		[Ignore("This is currently not implemented. It likely should be though. I can see no good reason not to.")]
+		public void Invocation_should_be_IChangeInvocationTarget_for_additional_interface_methods()
+		{
+			var interceptor = new ChangeTargetInterceptor(new OneTwo());
+			var proxy = generator.CreateInterfaceProxyWithTargetInterface(typeof(IOne),
+																		  new[] { typeof(ITwo) },
+																		  new One(),
+																		  ProxyGenerationOptions.Default,
+																		  interceptor);
+			var result = (proxy as ITwo).TwoMethod();
+
+			Assert.AreEqual(2, result);
+		}
+
+		[Test]
+		public void Invocation_should_be_IChangeInvocationTarget_for_target_methods()
+		{
+			var options = new ProxyGenerationOptions();
+			options.AddMixinInstance(new Two());
+			var interceptor = new ChangeTargetInterceptor(new OneTwo());
+			var proxy = generator.CreateInterfaceProxyWithTargetInterface(typeof(IOne),
+																		  new One(),
+																		  options,
+																		  interceptor);
+			var result = (proxy as IOne).OneMethod();
+
+			Assert.AreEqual(3, result);
+		}
+
+		[Test]
 		public void Invocation_should_be_IChangeInvocationTarget_for_Mixin_methods()
 		{
 			var options = new ProxyGenerationOptions();
