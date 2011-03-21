@@ -167,6 +167,18 @@ namespace Castle.DynamicProxy
 			}
 		}
 
+		public void Rollback()
+		{
+			if (execIndex <= 0)
+			{
+				const string message = "This is a DynamicProxy2 error: invocation.Rollback() cannot be called prior to calling " +
+									   "invocation.Proceed() or the method has been called more times than invocation.Proceed() has " +
+									   "been called.";
+				throw new InvalidOperationException(message);
+			}
+			execIndex--;
+		}
+
 #if !SILVERLIGHT
 #if DOTNET40
 		[SecurityCritical]

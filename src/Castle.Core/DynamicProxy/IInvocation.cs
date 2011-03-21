@@ -121,5 +121,14 @@ namespace Castle.DynamicProxy
 		/// <see cref="NotImplementedException"/> will be thrown.
 		/// </remarks>
 		void Proceed();
+
+		/// <summary>
+		/// Rolls the invocation chain back by one.  This allows interceptors to be invoked more than once.
+		/// </summary>
+		/// <remarks>
+		/// If the chain has been rolled beyond the interceptor count or Proceed has not be invoked yet,
+		/// then a <see cref="InvalidOperationException"/> will be thrown.
+		/// </remarks>
+		void Rollback();
 	}
 }
