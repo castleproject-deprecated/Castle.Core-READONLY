@@ -62,6 +62,11 @@ namespace Castle.DynamicProxy
 			parent.Proceed();
 		}
 
+		public void Rollback()
+		{
+			parent.Rollback();
+		}
+
 		public object Proxy
 		{
 			get { return parent.Proxy; }
