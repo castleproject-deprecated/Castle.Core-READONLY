@@ -49,7 +49,8 @@ namespace Castle.DynamicProxy.Contributors
 
 		protected override Expression GetTargetReferenceExpression(ClassEmitter emitter)
 		{
-			return SelfReference.Self.ToExpression();
+			Reference target = emitter.GetField("__target");
+			return (target ?? SelfReference.Self).ToExpression();
 		}
 
 		public override void Generate(ClassEmitter @class, ProxyGenerationOptions options)

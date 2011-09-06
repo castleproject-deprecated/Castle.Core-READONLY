@@ -72,13 +72,13 @@ namespace Castle.DynamicProxy.Generators
 			return new FieldReference(InvocationMethods.Target);
 		}
 
-		protected override void ImplementInvokeMethodOnTarget(AbstractTypeEmitter invocation, ParameterInfo[] parameters,
+		protected override void ImplementInvokeMethodOnTarget(AbstractTypeEmitter invocation,
 		                                                      MethodEmitter invokeMethodOnTarget, Reference targetField)
 		{
 			invokeMethodOnTarget.CodeBuilder.AddStatement(
 				new ExpressionStatement(
 					new MethodInvocationExpression(SelfReference.Self, InvocationMethods.EnsureValidTarget)));
-			base.ImplementInvokeMethodOnTarget(invocation, parameters, invokeMethodOnTarget, targetField);
+			base.ImplementInvokeMethodOnTarget(invocation, invokeMethodOnTarget, targetField);
 		}
 	}
 }

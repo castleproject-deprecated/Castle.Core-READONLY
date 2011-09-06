@@ -103,6 +103,13 @@ namespace Castle.DynamicProxy
 
 		public Type BaseTypeForInterfaceProxy { get; set; }
 
+		/// <summary>
+		/// Resulting proxy type (class or interface, depending on which proxy you're creating).
+		/// Use when your proxy target interface/class is different from the one you need.
+		/// A use case is to proxy between identical types from different assemblies.
+		/// </summary>
+		public Type ProxyEffectiveType { get; set; }
+
 		[Obsolete(
 			"This property is obsolete and will be removed in future versions. Use AdditionalAttributes property instead. " +
 			"You can use AttributeUtil class to simplify creating CustomAttributeBuilder instances for common cases.")]

@@ -66,6 +66,12 @@ namespace Castle.DynamicProxy.Generators
 			return BaseType;
 		}
 
+		protected override ParameterInfo[] GetCallbackParameters()
+		{
+			// callback parameters can't be used here, as it's not yet built
+			return method.Method.GetParameters();
+		}
+
 		protected override FieldReference GetTargetReference()
 		{
 			return new FieldReference(InvocationMethods.ProxyObject);
