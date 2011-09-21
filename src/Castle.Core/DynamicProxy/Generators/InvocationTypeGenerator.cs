@@ -126,6 +126,7 @@ namespace Castle.DynamicProxy.Generators
 			// Idea: instead of grab parameters one by one
 			// we should grab an array
 			var byRefArguments = new Dictionary<int, LocalReference>();
+			bool hasByRefArguments = false;
 
 			for (var i = 0; i < parameters.Length; i++)
 			{
@@ -134,6 +135,7 @@ namespace Castle.DynamicProxy.Generators
 				var paramType = invocation.GetClosedParameterType(param.ParameterType);
 				if (paramType.IsByRef)
 				{
+					hasByRefArguments = true;
 					var localReference = invokeMethodOnTarget.CodeBuilder.DeclareLocal(paramType.GetElementType());
 					invokeMethodOnTarget.CodeBuilder
 						.AddStatement(
@@ -156,6 +158,11 @@ namespace Castle.DynamicProxy.Generators
 				}
 			}
 
+			if (hasByRefArguments)
+			{
+				invokeMethodOnTarget.CodeBuilder.AddStatement(new TryStatement());
+			}
+
 			var methodOnTargetInvocationExpression = GetCallbackMethodInvocation(invocation, args, callbackMethod, targetField,
 			                                                                     invokeMethodOnTarget);
 
@@ -169,6 +176,11 @@ namespace Castle.DynamicProxy.Generators
 			else
 			{
 				invokeMethodOnTarget.CodeBuilder.AddStatement(new ExpressionStatement(methodOnTargetInvocationExpression));
+			}
+
+			if (hasByRefArguments)
+			{
+				invokeMethodOnTarget.CodeBuilder.AddStatement(new FinalStatement());
 			}
 
 			foreach (var byRefArgument in byRefArguments)
@@ -186,6 +198,11 @@ namespace Castle.DynamicProxy.Generators
 						                                                     new ReferenceExpression
 						                                                     	(localReference)))
 						));
+			}
+
+			if (hasByRefArguments)
+			{
+				invokeMethodOnTarget.CodeBuilder.AddStatement(new EndExceptionStatement());
 			}
 
 			if (callbackMethod.ReturnType != typeof(void))
