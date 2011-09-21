@@ -80,7 +80,7 @@ namespace Castle.DynamicProxy.Generators
 				ImplementChangeProxyTargetInterface(@class, invocation, targetField);
 			}
 
-			ImplemementInvokeMethodOnTarget(invocation, methodInfo.GetParameters(), targetField, callback);
+			ImplemementInvokeMethodOnTarget(invocation, targetField);
 
 #if !SILVERLIGHT
 			invocation.DefineCustomAttribute<SerializableAttribute>();
@@ -105,7 +105,7 @@ namespace Castle.DynamicProxy.Generators
 			return methodOnTargetInvocationExpression;
 		}
 
-		protected virtual void ImplementInvokeMethodOnTarget(AbstractTypeEmitter invocation, ParameterInfo[] parameters,
+		protected virtual void ImplementInvokeMethodOnTarget(AbstractTypeEmitter invocation,
 		                                                     MethodEmitter invokeMethodOnTarget,
 		                                                     Reference targetField)
 		{
@@ -115,6 +115,7 @@ namespace Castle.DynamicProxy.Generators
 				EmitCallThrowOnNoTarget(invokeMethodOnTarget);
 				return;
 			}
+            var parameters = GetCallbackParameters();
 
 			if (canChangeTarget)
 			{
@@ -201,6 +202,11 @@ namespace Castle.DynamicProxy.Generators
 			invokeMethodOnTarget.CodeBuilder.AddStatement(new ReturnStatement());
 		}
 
+		protected virtual ParameterInfo[] GetCallbackParameters()
+		{
+			return contributor != null ? contributor.GetCallbackMethod().GetParameters() : callback.GetParameters();
+		}
+
 		private void CreateConstructor(AbstractTypeEmitter invocation, ProxyGenerationOptions options)
 		{
 			ConstructorInfo baseConstructor;
@@ -264,11 +270,10 @@ namespace Castle.DynamicProxy.Generators
 			return new ClassEmitter(@class.ModuleScope, uniqueName, GetBaseType(), interfaces);
 		}
 
-		private void ImplemementInvokeMethodOnTarget(AbstractTypeEmitter invocation, ParameterInfo[] parameters,
-		                                             FieldReference targetField, MethodInfo callbackMethod)
+		private void ImplemementInvokeMethodOnTarget(AbstractTypeEmitter invocation, FieldReference targetField)
 		{
 			var invokeMethodOnTarget = invocation.CreateMethod("InvokeMethodOnTarget", typeof(void));
-			ImplementInvokeMethodOnTarget(invocation, parameters, invokeMethodOnTarget, targetField);
+			ImplementInvokeMethodOnTarget(invocation, invokeMethodOnTarget, targetField);
 		}
 
 		private void ImplementChangeInvocationTarget(AbstractTypeEmitter invocation, FieldReference targetField)

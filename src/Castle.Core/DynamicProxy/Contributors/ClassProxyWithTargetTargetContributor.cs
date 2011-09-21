@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Castle.DynamicProxy.Internal;
+
 namespace Castle.DynamicProxy.Contributors
 {
 	using System;
@@ -28,13 +30,17 @@ namespace Castle.DynamicProxy.Contributors
 	public class ClassProxyWithTargetTargetContributor : CompositeTypeContributor
 	{
 		private readonly IList<MethodInfo> methodsToSkip;
+		private readonly Type baseType;
 		private readonly Type targetType;
+		private readonly bool identicalTypes;
 
-		public ClassProxyWithTargetTargetContributor(Type targetType, IList<MethodInfo> methodsToSkip,
+		public ClassProxyWithTargetTargetContributor(Type baseType, Type targetType, IList<MethodInfo> methodsToSkip,
 		                                             INamingScope namingScope)
 			: base(namingScope)
 		{
+			this.baseType = baseType;
 			this.targetType = targetType;
+			this.identicalTypes = baseType == targetType;
 			this.methodsToSkip = methodsToSkip;
 		}
 
@@ -42,7 +48,7 @@ namespace Castle.DynamicProxy.Contributors
 		{
 			Debug.Assert(hook != null, "hook != null");
 
-			var targetItem = new WrappedClassMembersCollector(targetType) { Logger = Logger };
+			var targetItem = new WrappedClassMembersCollector(baseType) { Logger = Logger };
 			targetItem.CollectMembersToProxy(hook);
 			yield return targetItem;
 
@@ -50,7 +56,7 @@ namespace Castle.DynamicProxy.Contributors
 			{
 				var item = new InterfaceMembersOnClassCollector(@interface,
 				                                                true,
-				                                                targetType.GetInterfaceMap(@interface)) { Logger = Logger };
+				                                                baseType.GetInterfaceMap(@interface)) { Logger = Logger };
 				item.CollectMembersToProxy(hook);
 				yield return item;
 			}
@@ -71,12 +77,19 @@ namespace Castle.DynamicProxy.Contributors
 				                                        overrideMethod);
 			}
 
+			var targetMethod = identicalTypes ? method.Method : InvocationHelper.GetMethodOnType(targetType, method.Method);
+			if (!identicalTypes && targetMethod == null)
+			{
+				// call base
+				return null;
+			}
+
 			if (IsDirectlyAccessible(method) == false)
 			{
 				return IndirectlyCalledMethodGenerator(method, @class, options, overrideMethod);
 			}
 
-			var invocation = GetInvocationType(method, @class, options);
+			var invocation = GetInvocationType(method, targetMethod, @class, options);
 
 			return new MethodWithInvocationGenerator(method,
 			                                         @class.GetField("__interceptors"),
@@ -86,7 +99,7 @@ namespace Castle.DynamicProxy.Contributors
 			                                         null);
 		}
 
-		private Type BuildInvocationType(MetaMethod method, ClassEmitter @class, ProxyGenerationOptions options)
+		private Type BuildInvocationType(MetaMethod method, MethodInfo targetMethod, ClassEmitter @class, ProxyGenerationOptions options)
 		{
 			if (!method.HasTarget)
 			{
@@ -98,7 +111,7 @@ namespace Castle.DynamicProxy.Contributors
 			}
 			return new CompositionInvocationTypeGenerator(method.Method.DeclaringType,
 			                                              method,
-			                                              method.Method,
+			                                              targetMethod,
 			                                              false,
 			                                              null)
 				.Generate(@class, options, namingScope)
@@ -142,12 +155,12 @@ namespace Castle.DynamicProxy.Contributors
 			return type;
 		}
 
-		private Type GetInvocationType(MetaMethod method, ClassEmitter @class, ProxyGenerationOptions options)
+		private Type GetInvocationType(MetaMethod method, MethodInfo targetMethod, ClassEmitter @class, ProxyGenerationOptions options)
 		{
 			var scope = @class.ModuleScope;
 			var invocationInterfaces = new[] { typeof(IInvocation) };
 
-			var key = new CacheKey(method.Method, CompositionInvocationTypeGenerator.BaseType, invocationInterfaces, null);
+			var key = new CacheKey(method.Method, targetType, invocationInterfaces, null);
 
 			// no locking required as we're already within a lock
 
@@ -156,7 +169,7 @@ namespace Castle.DynamicProxy.Contributors
 			{
 				return invocation;
 			}
-			invocation = BuildInvocationType(method, @class, options);
+			invocation = BuildInvocationType(method, targetMethod, @class, options);
 
 			scope.RegisterInCache(key, invocation);
 

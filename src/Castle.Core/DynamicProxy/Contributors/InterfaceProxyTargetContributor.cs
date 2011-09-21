@@ -12,6 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Reflection;
+using Castle.DynamicProxy.Internal;
+
 namespace Castle.DynamicProxy.Contributors
 {
 	using System;
@@ -62,7 +65,14 @@ namespace Castle.DynamicProxy.Contributors
 				                                     (c, m) => c.GetField("__target"));
 			}
 
-			var invocation = GetInvocationType(method, @class, options);
+			var targetMethod = options.ProxyEffectiveType == null ? method.Method : InvocationHelper.GetMethodOnType(proxyTargetType, method.Method);
+
+			if (targetMethod == null)
+			{
+				return new MinimialisticMethodGenerator(method, overrideMethod);
+			}
+
+			var invocation = GetInvocationType(method, targetMethod, @class, options);
 
 			return new MethodWithInvocationGenerator(method,
 			                                         @class.GetField("__interceptors"),
@@ -72,7 +82,7 @@ namespace Castle.DynamicProxy.Contributors
 			                                         null);
 		}
 
-		private Type GetInvocationType(MetaMethod method, ClassEmitter @class, ProxyGenerationOptions options)
+		private Type GetInvocationType(MetaMethod method, MethodInfo targetMethod, ClassEmitter @class, ProxyGenerationOptions options)
 		{
 			var scope = @class.ModuleScope;
 
@@ -86,7 +96,7 @@ namespace Castle.DynamicProxy.Contributors
 				invocationInterfaces = new[] { typeof(IInvocation) };
 			}
 
-			var key = new CacheKey(method.Method, CompositionInvocationTypeGenerator.BaseType, invocationInterfaces, null);
+			var key = new CacheKey(method.Method, proxyTargetType, invocationInterfaces, null);
 
 			// no locking required as we're already within a lock
 
@@ -98,7 +108,7 @@ namespace Castle.DynamicProxy.Contributors
 
 			invocation = new CompositionInvocationTypeGenerator(method.Method.DeclaringType,
 			                                                    method,
-			                                                    method.Method,
+			                                                    targetMethod,
 			                                                    canChangeTarget,
 			                                                    null)
 				.Generate(@class, options, namingScope).BuildType();

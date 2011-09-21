@@ -46,7 +46,7 @@ namespace Castle.DynamicProxy.Generators
 						return false;
 					}
 
-					if (!xArgs[i].IsGenericParameter && !xArgs[i].Equals(yArgs[i]))
+					if (!xArgs[i].IsGenericParameter && xArgs[i].FullName != yArgs[i].FullName)
 					{
 						return false;
 					}
@@ -93,7 +93,7 @@ namespace Castle.DynamicProxy.Generators
 			}
 			else
 			{
-				if (!x.Equals(y))
+				if (x.FullName != y.FullName)
 				{
 					return false;
 				}
@@ -103,7 +103,7 @@ namespace Castle.DynamicProxy.Generators
 
 		public bool Equals(MethodInfo x, MethodInfo y)
 		{
-			if (x == null && y == null)
+			if (x == y)
 			{
 				return true;
 			}
@@ -124,7 +124,7 @@ namespace Castle.DynamicProxy.Generators
 			return obj.Name.GetHashCode() ^ obj.GetParameters().Length; // everything else would be too cumbersome
 		}
 
-		private bool EqualNames(MethodInfo x, MethodInfo y)
+		private static bool EqualNames(MethodInfo x, MethodInfo y)
 		{
 			return x.Name == y.Name;
 		}

@@ -45,6 +45,14 @@ namespace Castle.DynamicProxy.Generators
 			get { return ProxyTypeConstants.InterfaceWithTarget; }
 		}
 
+		protected Type ProxyType
+		{
+			get
+			{
+				return ProxyGenerationOptions.ProxyEffectiveType ?? targetType;
+			}
+		}
+
 		public Type GenerateCode(Type proxyTargetType, Type[] interfaces, ProxyGenerationOptions options)
 		{
 			// make sure ProxyGenerationOptions is initialized
@@ -56,7 +64,7 @@ namespace Castle.DynamicProxy.Generators
 			ProxyGenerationOptions = options;
 
 			interfaces = TypeUtil.GetAllInterfaces(interfaces).ToArray();
-			var cacheKey = new CacheKey(proxyTargetType, targetType, interfaces, options);
+			var cacheKey = new CacheKey(proxyTargetType, ProxyType, interfaces, options);
 
 			return ObtainProxyType(cacheKey, (n, s) => GenerateType(n, proxyTargetType, interfaces, s));
 		}
@@ -68,7 +76,7 @@ namespace Castle.DynamicProxy.Generators
 		{
 			var contributor = new InterfaceProxyTargetContributor(proxyTargetType, AllowChangeTarget, namingScope)
 			{ Logger = Logger };
-			var proxiedInterfaces = targetType.GetAllInterfaces();
+			var proxiedInterfaces = ProxyType.GetAllInterfaces();
 			foreach (var @interface in proxiedInterfaces)
 			{
 				contributor.AddInterfaceToProxy(@interface);

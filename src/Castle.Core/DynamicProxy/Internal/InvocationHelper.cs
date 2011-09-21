@@ -46,8 +46,8 @@ namespace Castle.DynamicProxy.Internal
 				throw new ArgumentNullException("type");
 			}
 
-			Debug.Assert(proxiedMethod.DeclaringType.IsAssignableFrom(type),
-			             "proxiedMethod.DeclaringType.IsAssignableFrom(type)");
+			//Debug.Assert(proxiedMethod.DeclaringType.IsAssignableFrom(type),
+			//             "proxiedMethod.DeclaringType.IsAssignableFrom(type)");
 			using (var locker = @lock.ForReadingUpgradeable())
 			{
 				var methodOnTarget = GetFromCache(proxiedMethod, type);
@@ -86,7 +86,7 @@ namespace Castle.DynamicProxy.Internal
 			}
 			var declaringType = proxiedMethod.DeclaringType;
 			MethodInfo methodOnTarget = null;
-			if (declaringType.IsInterface)
+			if (declaringType.IsInterface && !type.IsInterface)
 			{
 				var mapping = type.GetInterfaceMap(declaringType);
 				var index = Array.IndexOf(mapping.InterfaceMethods, proxiedMethod);
@@ -108,9 +108,7 @@ namespace Castle.DynamicProxy.Internal
 			}
 			if (methodOnTarget == null)
 			{
-				throw new ArgumentException(
-					string.Format("Could not find method overriding {0} on type {1}. This is most likely a bug. Please report it.",
-					              proxiedMethod, type));
+				return null;
 			}
 
 			if (genericArguments == null)

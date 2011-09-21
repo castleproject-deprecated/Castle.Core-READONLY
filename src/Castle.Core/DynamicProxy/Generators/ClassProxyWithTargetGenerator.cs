@@ -29,6 +29,14 @@ namespace Castle.DynamicProxy.Generators
 	{
 		private readonly Type[] additionalInterfacesToProxy;
 
+		private Type BaseType
+		{
+			get
+			{
+				return ProxyGenerationOptions.ProxyEffectiveType ?? targetType;
+			}
+		}
+
 		public ClassProxyWithTargetGenerator(ModuleScope scope, Type classToProxy, Type[] additionalInterfacesToProxy,
 		                                     ProxyGenerationOptions options)
 			: base(scope, classToProxy)
@@ -44,7 +52,7 @@ namespace Castle.DynamicProxy.Generators
 
 		public Type GetGeneratedType()
 		{
-			var cacheKey = new CacheKey(targetType, targetType, additionalInterfacesToProxy, ProxyGenerationOptions);
+			var cacheKey = new CacheKey(targetType, BaseType, additionalInterfacesToProxy, ProxyGenerationOptions);
 			return ObtainProxyType(cacheKey, GenerateType);
 		}
 
@@ -55,7 +63,7 @@ namespace Castle.DynamicProxy.Generators
 			var proxyInstance = new ClassProxyInstanceContributor(targetType, methodsToSkip, additionalInterfacesToProxy,
 			                                                      ProxyTypeConstants.ClassWithTarget);
 			// TODO: the trick with methodsToSkip is not very nice...
-			var proxyTarget = new ClassProxyWithTargetTargetContributor(targetType, methodsToSkip, namingScope)
+			var proxyTarget = new ClassProxyWithTargetTargetContributor(BaseType, targetType, methodsToSkip, namingScope)
 			{ Logger = Logger };
 			IDictionary<Type, ITypeContributor> typeImplementerMapping = new Dictionary<Type, ITypeContributor>();
 
@@ -174,7 +182,7 @@ namespace Castle.DynamicProxy.Generators
 			}
 			ProxyGenerationOptions.Hook.MethodsInspected();
 
-			var emitter = BuildClassEmitter(name, targetType, implementedInterfaces);
+			var emitter = BuildClassEmitter(name, BaseType, implementedInterfaces);
 
 			CreateFields(emitter);
 			CreateTypeAttributes(emitter);
@@ -205,8 +213,8 @@ namespace Castle.DynamicProxy.Generators
 				constructorArguments.Add(selector);
 			}
 
-			GenerateConstructors(emitter, targetType, constructorArguments.ToArray());
-			GenerateParameterlessConstructor(emitter, targetType, interceptorsField);
+			GenerateConstructors(emitter, BaseType, constructorArguments.ToArray());
+			GenerateParameterlessConstructor(emitter, BaseType, interceptorsField);
 
 			// Complete type initializer code body
 			CompleteInitCacheMethod(cctor.CodeBuilder);
